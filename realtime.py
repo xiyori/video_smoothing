@@ -30,7 +30,8 @@ def stabilize(cap: cv2.VideoCapture, amount: int) -> None:
             M, _ = cv2.findHomography(prev_pts, curr_pts, cv2.RANSAC, 5.0)
             prev_n_shift.append(np.dot(M, prev_n_shift[-1]))
             if len(prev_n_shift) > max_n:
-                inv = lin.inv(prev_n_shift.pop(0))
+                prev_n_shift.pop(0)
+                inv = lin.inv(prev_n_shift[0])
                 for i in range(len(prev_n_shift)):
                     prev_n_shift[i] = np.dot(prev_n_shift[i], inv)
             prev_frame = frame
